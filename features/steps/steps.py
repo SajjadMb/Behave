@@ -1,13 +1,21 @@
 from behave import *
-
-@given('we have behave installed')
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+ 
+DUCKDUCKGO_HOME = 'https://duckduckgo.com/'
+ 
+@given('the DuckDuckGo home page is displayed')
 def step_impl(context):
-    pass
-
-@when('we implement a test')
-def step_impl(context):
-    assert True is not False
-
-@then('behave will test it for us!')
-def step_impl(context):
-    assert context.failed is False
+  context.browser.get(DUCKDUCKGO_HOME)
+ 
+@when('the user searches for "{phrase}"')
+def step_impl(context, phrase):
+  search_input = context.browser.find_element_by_name('q')
+  search_input.send_keys(phrase + Keys.RETURN)
+ 
+@then('results are shown for "{phrase}"')
+def step_impl(context, phrase):
+  links_div = context.browser.find_element_by_id('links')
+  assert len(links_div.find_elements_by_xpath('//div')) > 0
+  search_input = context.browser.find_element_by_name('q')
+  assert search_input.get_attribute('value') == phrase
