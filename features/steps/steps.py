@@ -1,5 +1,4 @@
 from behave import *
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
  
 DUCKDUCKGO_HOME = 'https://duckduckgo.com/'
